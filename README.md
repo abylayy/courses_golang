@@ -25,3 +25,4 @@ Billion Courses is your go-to place for buying online courses! It's a super easy
 - GO. Programming language for server-side development
 - Postman. API testing and development tool
 - HTML, CSS. To create the front side.
+- ORM library for GOlang [https://gorm.io/]
