@@ -2,6 +2,7 @@
 
 ## Brief Project Description
 Billion Courses is your go-to place for buying online courses! It's a super easy platform where you can find and purchase all sorts of online courses. Whether you're into coding, cooking, or crafting, we've got something for everyone. Our goal is to make learning accessible and fun for everyone, no matter what you're curious about.
+The full version of the website [click here!](https://azawhat.github.io/frontend/)
 ## Participants
 - Abylay Amandykov
 - Azamat Yerezhepbayev
