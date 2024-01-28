@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -75,6 +74,8 @@ func main() {
 	http.HandleFunc("/success", successPageHandler)
 
 	http.Handle("/styles/", http.StripPrefix("/styles/", http.FileServer(http.Dir("styles"))))
+	http.Handle("/images/", http.StripPrefix("/images/", http.FileServer(http.Dir("images"))))
+	http.Handle("/page/", http.StripPrefix("/page/", http.FileServer(http.Dir("page"))))
 	http.Handle("/javascript/", http.StripPrefix("/javascript/", http.FileServer(http.Dir("javascript"))))
 
 	fmt.Println("Server is running on :8080")
@@ -83,7 +84,7 @@ func main() {
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodGet {
-		serveHTMLFile(w, r, "register.html")
+		serveHTMLFile(w, r, "page/index.html")
 		return
 	}
 
@@ -116,17 +117,11 @@ func submitHandler(w http.ResponseWriter, r *http.Request, db *gorm.DB) {
 }
 
 func errorPageHandler(w http.ResponseWriter, r *http.Request) {
-	serveHTMLFile(w, r, "error.html")
+	serveHTMLFile(w, r, "page/error.html")
 }
 
 func successPageHandler(w http.ResponseWriter, r *http.Request) {
-	serveHTMLFile(w, r, "success.html")
-}
-
-func respondJSON(w http.ResponseWriter, statusCode int, data interface{}) {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(statusCode)
-	json.NewEncoder(w).Encode(data)
+	serveHTMLFile(w, r, "page/success.html")
 }
 
 func serveHTMLFile(w http.ResponseWriter, r *http.Request, filename string) {
