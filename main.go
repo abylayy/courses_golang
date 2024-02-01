@@ -2,11 +2,14 @@ package main
 
 import (
 	"fmt"
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
 	"html/template"
 	"log"
+	"math"
 	"net/http"
+	"strconv"
+
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
 type User struct {
@@ -27,7 +30,11 @@ type AdditionalCourses struct {
 }
 
 type PageData struct {
-	Courses []AdditionalCourses
+	Courses     []AdditionalCourses
+	CurrentPage int
+	TotalPages  int
+	Filter      string
+	Sort        string
 }
 
 type UserRepository struct {
@@ -143,48 +150,74 @@ func serveHTMLFile(w http.ResponseWriter, r *http.Request, filename string) {
 func filteredCoursesHandler(w http.ResponseWriter, r *http.Request, db *gorm.DB) {
 	if r.Method == http.MethodGet {
 		filter := r.URL.Query().Get("filter")
+		sort := r.URL.Query().Get("sort")
+		pageStr := r.URL.Query().Get("page")
+		perPage := 3 // Number of items per page
+
 		var courses []AdditionalCourses
+		query := db
+
 		if filter != "" {
-			result := db.Where("course_name LIKE ?", "%"+filter+"%").Find(&courses)
-			if result.Error != nil {
-				log.Printf("Error querying the database: %v", result.Error)
-				http.Error(w, "Error querying the database", http.StatusInternalServerError)
-				return
-			}
-		} else {
-			result := db.Find(&courses)
-			if result.Error != nil {
-				log.Printf("Error querying the database: %v", result.Error)
-				http.Error(w, "Error querying the database", http.StatusInternalServerError)
-				return
-			}
+			query = query.Where("course_name LIKE ?", "%"+filter+"%")
 		}
 
-		// Print the retrieved courses
-		log.Printf("Retrieved courses: %+v", courses)
+		// Sorting logic based on the 'sort' parameter
+		switch sort {
+		case "name":
+			query = query.Order("course_name")
+		case "price":
+			query = query.Order("price")
+		case "date":
+			query = query.Order("recorded_date")
+		default:
+			// You can set a default sorting option here
+			// For example, sort by course name if 'sort' parameter is not provided
+			query = query.Order("course_name")
+		}
 
-		renderCourses(w, courses)
+		// Get total count for pagination
+		var totalCount int64
+		query.Model(&AdditionalCourses{}).Count(&totalCount)
+
+		// Calculate offset based on page number
+		page, err := strconv.Atoi(pageStr)
+		if err != nil || page < 1 {
+			page = 1
+		}
+		offset := (page - 1) * perPage
+
+		// Retrieve courses for the specified page
+		result := query.Offset(offset).Limit(perPage).Find(&courses)
+		if result.Error != nil {
+			log.Printf("Error querying the database: %v", result.Error)
+			http.Error(w, "Error querying the database", http.StatusInternalServerError)
+			return
+		}
+
+		// Calculate total pages
+		totalPages := int(math.Ceil(float64(totalCount) / float64(perPage)))
+
+		// Execute template with pagination data
+		err = renderCourses(w, PageData{
+			Courses:     courses,
+			CurrentPage: page,
+			TotalPages:  totalPages,
+			Filter:      filter,
+			Sort:        sort,
+		})
+
 		return
 	}
 
 	http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
 }
 
-func renderCourses(w http.ResponseWriter, courses []AdditionalCourses) {
+func renderCourses(w http.ResponseWriter, pageData PageData) error {
 	tmpl, err := template.New("").ParseGlob("page/*.html")
 	if err != nil {
-		log.Printf("Error parsing template: %v", err)
-		http.Error(w, "Error rendering template", http.StatusInternalServerError)
-		return
+		return err
 	}
 
-	// Print the parsed templates
-	log.Printf("Parsed templates: %s", tmpl.DefinedTemplates())
-
-	err = tmpl.ExecuteTemplate(w, "courses.html", struct{ Courses []AdditionalCourses }{Courses: courses})
-	if err != nil {
-		log.Printf("Error executing template: %v", err)
-		http.Error(w, "Error rendering template", http.StatusInternalServerError)
-		return
-	}
+	// Execute template with pagination data
+	return tmpl.ExecuteTemplate(w, "courses.html", pageData)
 }
