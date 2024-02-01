@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"html/template"
 	"log"
 	"net/http"
 )
@@ -15,41 +16,49 @@ type User struct {
 	Password string
 }
 
+type AdditionalCourses struct {
+	ID           uint
+	CourseName   string
+	Description  string
+	Price        float64
+	Sessions     int64
+	RecordedDate string
+	TotalUsers   int64
+}
+
+type PageData struct {
+	Courses []AdditionalCourses
+}
+
 type UserRepository struct {
 	DB *gorm.DB
 }
 
-// creates a new UserRepository
 func NewUserRepository(db *gorm.DB) *UserRepository {
 	return &UserRepository{DB: db}
 }
 
-// creates a new user
 func (ur *UserRepository) CreateUser(user *User) {
 	ur.DB.Create(user)
 }
 
-// retrieves a user by ID
 func (ur *UserRepository) GetUserByID(id uint) *User {
 	var user User
 	ur.DB.First(&user, id)
 	return &user
 }
 
-// updates the user's name by ID
 func (ur *UserRepository) UpdateUserNameByID(id uint, newName string) {
 	var user User
 	ur.DB.First(&user, id)
 	ur.DB.Model(&user).Update("Name", newName)
 }
 
-// deletes a user by ID
 func (ur *UserRepository) DeleteUserByID(id uint) {
 	var user User
 	ur.DB.Delete(&user, id)
 }
 
-// retrieves a list of all users
 func (ur *UserRepository) GetAllUsers() []User {
 	var users []User
 	ur.DB.Find(&users)
@@ -57,14 +66,16 @@ func (ur *UserRepository) GetAllUsers() []User {
 }
 
 func main() {
-	// Connect to the database
 	dsn := "user=postgres password=123 dbname=courses sslmode=disable"
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatal("Failed to connect to the database")
 	}
 
-	db.AutoMigrate(&User{})
+	db.AutoMigrate(&User{}, &AdditionalCourses{})
+
+	// Log the migration status
+	log.Println("Database migration completed successfully")
 
 	http.HandleFunc("/", indexHandler)
 	http.HandleFunc("/submit", func(w http.ResponseWriter, r *http.Request) {
@@ -72,6 +83,9 @@ func main() {
 	})
 	http.HandleFunc("/error", errorPageHandler)
 	http.HandleFunc("/success", successPageHandler)
+	http.HandleFunc("/additional-courses", func(w http.ResponseWriter, r *http.Request) {
+		filteredCoursesHandler(w, r, db)
+	})
 
 	http.Handle("/styles/", http.StripPrefix("/styles/", http.FileServer(http.Dir("styles"))))
 	http.Handle("/images/", http.StripPrefix("/images/", http.FileServer(http.Dir("images"))))
@@ -102,13 +116,11 @@ func submitHandler(w http.ResponseWriter, r *http.Request, db *gorm.DB) {
 			return
 		}
 
-		// Add the user to the database
 		userRepo := NewUserRepository(db)
 		userRepo.CreateUser(&User{Name: name, Email: email, Password: password})
 
 		fmt.Printf("Name: %s\nEmail: %s\nPassword: %s\n", name, email, password)
 
-		// Redirect to the success page
 		http.Redirect(w, r, "/success", http.StatusSeeOther)
 		return
 	}
@@ -126,4 +138,53 @@ func successPageHandler(w http.ResponseWriter, r *http.Request) {
 
 func serveHTMLFile(w http.ResponseWriter, r *http.Request, filename string) {
 	http.ServeFile(w, r, filename)
+}
+
+func filteredCoursesHandler(w http.ResponseWriter, r *http.Request, db *gorm.DB) {
+	if r.Method == http.MethodGet {
+		filter := r.URL.Query().Get("filter")
+		var courses []AdditionalCourses
+		if filter != "" {
+			result := db.Where("course_name LIKE ?", "%"+filter+"%").Find(&courses)
+			if result.Error != nil {
+				log.Printf("Error querying the database: %v", result.Error)
+				http.Error(w, "Error querying the database", http.StatusInternalServerError)
+				return
+			}
+		} else {
+			result := db.Find(&courses)
+			if result.Error != nil {
+				log.Printf("Error querying the database: %v", result.Error)
+				http.Error(w, "Error querying the database", http.StatusInternalServerError)
+				return
+			}
+		}
+
+		// Print the retrieved courses
+		log.Printf("Retrieved courses: %+v", courses)
+
+		renderCourses(w, courses)
+		return
+	}
+
+	http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
+}
+
+func renderCourses(w http.ResponseWriter, courses []AdditionalCourses) {
+	tmpl, err := template.New("").ParseGlob("page/*.html")
+	if err != nil {
+		log.Printf("Error parsing template: %v", err)
+		http.Error(w, "Error rendering template", http.StatusInternalServerError)
+		return
+	}
+
+	// Print the parsed templates
+	log.Printf("Parsed templates: %s", tmpl.DefinedTemplates())
+
+	err = tmpl.ExecuteTemplate(w, "courses.html", struct{ Courses []AdditionalCourses }{Courses: courses})
+	if err != nil {
+		log.Printf("Error executing template: %v", err)
+		http.Error(w, "Error rendering template", http.StatusInternalServerError)
+		return
+	}
 }

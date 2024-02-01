@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="../styles/style.css">
@@ -8,7 +8,6 @@
     <link rel="icon" href="../images/logo.png">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 </head>
-
 <body>
 <header class="bg-light">
     <div class="container">
@@ -21,7 +20,8 @@
             <div class="col-md-9">
                 <nav class="navbar navbar-expand-lg navbar-light">
                     <a class="navbar-brand" href="index.html"><b>A Billion Courses</b></a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
@@ -39,7 +39,7 @@
                                 <a class="nav-link" href="about_us.html">About us</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/page/register.html">Register</a>
+                                <a class="nav-link" href="/page/register.html">Sign Up</a>
                             </li>
                         </ul>
                     </div>
@@ -48,81 +48,53 @@
         </div>
     </div>
 </header>
-
 <div class="container mt-5">
-    <h1 class = "add" style="margin-bottom: 20px;">Additional Courses</h1>
+    <h1 class="add" style="margin-bottom: 20px;">Additional Courses</h1>
+    <!-- filtering -->
+    <form action="/additional-courses" method="get">
+        <label for="filter">Filter:</label>
+        <input type="text" id="filter" name="filter" placeholder="Enter filter">
+        <button type="submit">Apply Filter</button>
+        <br>
+        <label for="sort">Sort:</label>
+        <select id="sort" name="sort">
+            <option value="name">By Name</option>
+            <option value="price">By Price</option>
+        </select>
+        <button type="submit">Apply Sorting</button>
+    </form>
     <div class="row" id="courses-container">
-        <!-- Course 1 -->
+        {{ if .Courses }}
+        {{ if (len .Courses) }}
+        {{ range .Courses }}
+        <!-- Content for each course -->
+        <!-- Content for each course -->
         <div class="col-md-4 mb-4">
             <div class="card">
-                <img src="https://github.com/azawhat/frontend/blob/main/images/course4.jpg?raw=true" class="card-img-top" alt="Mastering React to Advanced Techniques">
                 <div class="card-body">
-                    <h5 class="card-title"><b>Mastering React to Advanced Techniques</b></h5>
-                    <button class="btn btn-secondary">199.99&euro;</button>
+                    <h5 class="card-title"><b>{{ .CourseName }}</b></h5>
+                    <p>{{ .Description }}</p>
+                    <p>{{ .Sessions }}</p>
+                    <p>{{ .RecordedDate }}</p>
+                    <p>{{ .TotalUsers }}</p>
+                    <p>{{ .ID }}</p>
+                    <button class="btn btn-secondary">{{ .Price }}&euro;</button>
                 </div>
             </div>
         </div>
-
-        <!-- Course 2 -->
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <img src="https://github.com/azawhat/frontend/blob/main/images/course5.jpg?raw=true" class="card-img-top" alt="Financial Intelligence: From Basics to Advanced Strategies">
-                <div class="card-body">
-                    <h5 class="card-title"><b>Financial Intelligence: From Basics to Advanced Strategies</b></h5>
-                    <button class="btn btn-secondary">59.99&euro;</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Course 3 -->
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <img src="https://github.com/azawhat/frontend/blob/main/images/course4.jpg?raw=true" class="card-img-top" alt="Mastering React to Advanced Techniques">
-                <div class="card-body">
-                    <h5 class="card-title"><b>Mastering React to Advanced Techniques</b></h5>
-                    <button class="btn btn-secondary">199.99&euro;</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Course 4 -->
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <img src="https://github.com/azawhat/frontend/blob/main/images/course5.jpg?raw=true" class="card-img-top" alt="Financial Intelligence: From Basics to Advanced Strategies">
-                <div class="card-body">
-                    <h5 class="card-title"><b>Financial Intelligence: From Basics to Advanced Strategies</b></h5>
-                    <button class="btn btn-secondary">59.99&euro;</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Course 5 -->
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <img src="https://github.com/azawhat/frontend/blob/main/images/course4.jpg?raw=true" class="card-img-top" alt="Mastering React to Advanced Techniques">
-                <div class="card-body">
-                    <h5 class="card-title"><b>Mastering React to Advanced Techniques</b></h5>
-                    <button class="btn btn-secondary">199.99&euro;</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Course 6 -->
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <img src="https://github.com/azawhat/frontend/blob/main/images/course5.jpg?raw=true" class="card-img-top" alt="Financial Intelligence: From Basics to Advanced Strategies">
-                <div class="card-body">
-                    <h5 class="card-title"><b>Financial Intelligence: From Basics to Advanced Strategies</b></h5>
-                    <button class="btn btn-secondary">59.99&euro;</button>
-                </div>
-            </div>
-        </div>
+        {{ end }}
+        {{ else }}
+        <!-- Content when there are no courses -->
+        <p>No courses available.</p>
+        {{ end }}
+        {{ else }}
+        <!-- Content when Courses is nil -->
+        <p>No course data available.</p>
+        {{ end }}
     </div>
 </div>
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<!--<script src="courses.js"></script>-->
 </body>
 </html>
