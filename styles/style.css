@@ -46,6 +46,7 @@ h1 {
     margin-bottom: 30px;
     border: 1px solid #ddd;
     padding: 20px;
+    height: 580px;
     border-radius: 10px;
     transition: box-shadow 0.3s;
 }
