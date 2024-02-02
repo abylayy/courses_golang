@@ -31,7 +31,7 @@
                                 <a class="nav-link" href="/page/index.html">Home</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/page/courses.html">Courses</a>
+                                <a class="nav-link" href="/additional-courses">Courses</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="contact.html">Contact</a>
@@ -51,21 +51,52 @@
 </header>
 <div class="container mt-5">
     <h1 class="add" style="margin-bottom: 20px;">Additional Courses</h1>
-    <!-- filtering -->
-    <form action="/additional-courses" method="get">
-        <label for="filter">Filter:</label>
-        <input type="text" id="filter" name="filter" placeholder="Enter filter">
-        <button type="submit">Apply Filter</button>
+
+    <!-- Filter form -->
+    <form action="/additional-courses" method="get" class="mb-3">
+        <div class="form-check form-check-inline">
+            <input type="checkbox" name="categories" value="school" class="form-check-input"> School
+        </div>
+        <div class="form-check form-check-inline">
+            <input type="checkbox" name="categories" value="it" class="form-check-input"> IT
+        </div>
+
+        <!-- Add more checkboxes for additional categories as needed -->
+
+        <label for="search">Search:</label>
+        <input type="text" id="search" name="filter" class="form-control" placeholder="Search by Course Name" value="{{.Filter}}">
+
+        <!-- Include a hidden input field to store the search term -->
+        <input type="hidden" name="sort" value="{{.Sort}}">
+
+        <button type="submit" name="action" value="filter" class="btn btn-secondary">Apply Filter</button>
     </form>
 
-    <form action="/additional-courses" method="get">
-        <label for="sort">Sort:</label>
-        <select id="sort" name="sort">
-            <option value="name">By Name</option>
-            <option value="price">By Price</option>
-            <option value="date">By Date</option>
+    <!-- Sort form -->
+    <form action="/additional-courses" method="get" class="mb-3">
+        <label for="sort">Sort By:</label>
+        <select id="sort" name="sort" class="form-control">
+            {{ if eq .Sort "course_name" }}
+            <option value="course_name" selected>Sort By Name</option>
+            {{ else }}
+            <option value="course_name">Sort By Name</option>
+            {{ end }}
+            {{ if eq .Sort "price" }}
+            <option value="price" selected>Sort By Price</option>
+            {{ else }}
+            <option value="price">Sort By Price</option>
+            {{ end }}
+            {{ if eq .Sort "recorded_date" }}
+            <option value="recorded_date" selected>Sort By Date</option>
+            {{ else }}
+            <option value="recorded_date">Sort By Date</option>
+            {{ end }}
         </select>
-        <button type="submit">Apply Sorting</button>
+
+        <!-- Include sorting parameter as a hidden field -->
+        <input type="hidden" name="sort" value="{{.Sort}}">
+
+        <button type="submit" name="action" value="sort" class="btn btn-secondary ml-2" id="button2">Apply</button>
     </form>
 
 
@@ -73,7 +104,6 @@
         {{ if .Courses }}
         {{ if (len .Courses) }}
         {{ range .Courses }}
-        <!-- Content for each course -->
         <!-- Content for each course -->
         <div class="col-md-4 mb-4">
             <div class="card">
@@ -87,21 +117,23 @@
         {{ end }}
         {{ else }}
         <!-- Content when there are no courses -->
-        <p>No courses available.</p>
+        <p class="text-muted">No courses available.</p>
         {{ end }}
         {{ else }}
         <!-- Content when Courses is nil -->
-        <p>No course data available.</p>
+        <p class="text-muted">No course data available.</p>
         {{ end }}
     </div>
+
     <div class="row mb-3">
-        <form action="/additional-courses" method="get">
-            <button type="submit" name="page" value="1" class="btn btn-secondary">1</button>
-            <button type="submit" name="page" value="2" class="btn btn-secondary">2</button>
-        </form>
+        {{ $currentPage := .CurrentPage }}
+        {{ $sort := .Sort }}
+
+        {{ range seq 1 .TotalPages }}
+        <a href="?page={{.}}&sort={{$sort}}" class="btn btn-secondary{{ if eq . $currentPage }} disabled{{ end }}">{{.}}</a>
+        {{ end }}
     </div>
 </div>
-
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
