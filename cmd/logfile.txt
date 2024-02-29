@@ -3,3 +3,10 @@
 {"action":"rate_limit_exceeded","level":"error","msg":"Rate limit exceeded","status":"failure","time":"2024-02-29T22:57:06+06:00"}
 {"action":"database_migration","level":"info","msg":"Database migration completed successfully","status":"success","time":"2024-02-29T22:58:31+06:00"}
 {"action":"server_start","level":"info","msg":"Server is running on :8080","status":"success","time":"2024-02-29T22:58:31+06:00"}
+{"action":"database_migration","level":"info","msg":"Database migration completed successfully","status":"success","time":"2024-02-29T22:59:29+06:00"}
+{"action":"server_start","level":"info","msg":"Server is running on :8080","status":"success","time":"2024-02-29T22:59:29+06:00"}
+{"action":"rate_limit_exceeded","level":"error","msg":"Rate limit exceeded","status":"failure","time":"2024-02-29T23:09:48+06:00"}
+{"action":"rate_limit_exceeded","level":"error","msg":"Rate limit exceeded","status":"failure","time":"2024-02-29T23:09:48+06:00"}
+{"action":"rate_limit_exceeded","level":"error","msg":"Rate limit exceeded","status":"failure","time":"2024-02-29T23:09:48+06:00"}
+{"action":"rate_limit_exceeded","level":"error","msg":"Rate limit exceeded","status":"failure","time":"2024-02-29T23:09:57+06:00"}
+{"action":"rate_limit_exceeded","level":"error","msg":"Rate limit exceeded","status":"failure","time":"2024-02-29T23:09:57+06:00"}

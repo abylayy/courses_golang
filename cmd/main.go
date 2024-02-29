@@ -14,13 +14,13 @@ import (
 	"gorm.io/gorm"
 )
 
-var limiter = rate.NewLimiter(1, 3) // Rate limit of 1 request per second with a burst of 3 requests
+var limiter = rate.NewLimiter(1, 3)
 var logger = logrus.New()
 
 func main() {
 	logger := logrus.New()
 	utils.InitLogger(logger)
-	dsn := "user=postgres password=CoIrD857 dbname=courses sslmode=disable"
+	dsn := "user=postgres password=123 dbname=courses sslmode=disable"
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		logger.WithFields(logrus.Fields{
@@ -32,7 +32,6 @@ func main() {
 
 	db.AutoMigrate(&models.User{}, &models.AdditionalCourses{})
 
-	// Log the migration status
 	logger.WithFields(logrus.Fields{
 		"action": "database_migration",
 		"status": "success",
@@ -40,7 +39,6 @@ func main() {
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		if !limiter.Allow() {
-			// Exceeded request limit
 			logger.WithFields(logrus.Fields{
 				"action": "rate_limit_exceeded",
 				"status": "failure",
