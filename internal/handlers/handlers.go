@@ -75,6 +75,9 @@ func SuccessPageHandler(w http.ResponseWriter, r *http.Request) {
 	template.ServeHTMLFile(w, r, "../page/success.html")
 }
 
+func RegisterHandler(w http.ResponseWriter, r *http.Request) {
+	template.ServeHTMLFile(w, r, "../page/register.html")
+}
 func FilteredCoursesHandler(w http.ResponseWriter, r *http.Request, db *gorm.DB) {
 
 	if r.Method == http.MethodGet {

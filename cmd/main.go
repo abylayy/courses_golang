@@ -20,7 +20,7 @@ var logger = logrus.New()
 func main() {
 	logger := logrus.New()
 	utils.InitLogger(logger)
-	dsn := "user=postgres password=123 dbname=courses sslmode=disable"
+	dsn := "user=postgres password=CoIrD857 dbname=courses sslmode=disable"
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		logger.WithFields(logrus.Fields{
@@ -61,10 +61,16 @@ func main() {
 		handlers.FilteredCoursesHandler(w, r, db)
 	})
 
-	http.Handle("/styles/", http.StripPrefix("/styles/", http.FileServer(http.Dir("styles"))))
+	http.HandleFunc("/styles/", func(w http.ResponseWriter, r *http.Request) {
+		// Set the Content-Type header to indicate that this is a CSS file
+		w.Header().Set("Content-Type", "text/css")
+		// Serve the CSS file
+		http.ServeFile(w, r, r.URL.Path[1:])
+	})
 	http.Handle("/images/", http.StripPrefix("/images/", http.FileServer(http.Dir("images"))))
 	http.Handle("/page/", http.StripPrefix("/page/", http.FileServer(http.Dir("page"))))
 	http.Handle("/javascript/", http.StripPrefix("/javascript/", http.FileServer(http.Dir("javascript"))))
+	http.HandleFunc("/register", handlers.RegisterHandler)
 
 	logger.WithFields(logrus.Fields{
 		"action": "server_start",
