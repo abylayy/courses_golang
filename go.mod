@@ -2,7 +2,12 @@ module frontend-main
 
 go 1.21
 
-require github.com/lib/pq v1.10.9
+require (
+	github.com/lib/pq v1.10.9
+	github.com/sirupsen/logrus v1.9.0
+	gorm.io/driver/postgres v1.5.4
+	gorm.io/gorm v1.25.5
+)
 
 require (
 	cloud.google.com/go v0.111.0 // indirect
@@ -100,7 +105,6 @@ require (
 	github.com/rivo/uniseg v0.4.4 // indirect
 	github.com/rubenv/sql-migrate v1.6.0 // indirect
 	github.com/shopspring/decimal v1.3.1 // indirect
-	github.com/sirupsen/logrus v1.9.3 // indirect
 	github.com/spf13/cast v1.6.0 // indirect
 	go.opencensus.io v0.24.0 // indirect
 	go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc v0.46.1 // indirect
@@ -128,6 +132,4 @@ require (
 	google.golang.org/protobuf v1.32.0 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
-	gorm.io/driver/postgres v1.5.4 // indirect
-	gorm.io/gorm v1.25.5 // indirect
 )

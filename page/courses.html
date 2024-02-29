@@ -52,27 +52,21 @@
 <div class="container mt-5">
     <h1 class="add" style="margin-bottom: 20px;">Additional Courses</h1>
 
-    <!-- Filter form -->
     <form action="/additional-courses" method="get" class="mb-3">
         <div class="form-check form-check-inline">
-            <input type="checkbox" name="categories" value="school" class="form-check-input"> School
+            <input type="checkbox" name="categories" value="school" class="form-check-input"> IT
         </div>
         <div class="form-check form-check-inline">
-            <input type="checkbox" name="categories" value="it" class="form-check-input"> IT
+            <input type="checkbox" name="categories" value="it" class="form-check-input"> School
         </div>
 
-        <!-- Add more checkboxes for additional categories as needed -->
-
-        <label for="search">Search:</label>
         <input type="text" id="search" name="filter" class="form-control" placeholder="Search by Course Name" value="{{.Filter}}">
 
-        <!-- Include a hidden input field to store the search term -->
         <input type="hidden" name="sort" value="{{.Sort}}">
 
         <button type="submit" name="action" value="filter" class="btn btn-secondary">Apply Filter</button>
     </form>
 
-    <!-- Sort form -->
     <form action="/additional-courses" method="get" class="mb-3">
         <label for="sort">Sort By:</label>
         <select id="sort" name="sort" class="form-control">
@@ -93,7 +87,6 @@
             {{ end }}
         </select>
 
-        <!-- Include sorting parameter as a hidden field -->
         <input type="hidden" name="sort" value="{{.Sort}}">
 
         <button type="submit" name="action" value="sort" class="btn btn-secondary ml-2" id="button2">Apply</button>
@@ -104,7 +97,6 @@
         {{ if .Courses }}
         {{ if (len .Courses) }}
         {{ range .Courses }}
-        <!-- Content for each course -->
         <div class="col-md-4 mb-4">
             <div class="card">
                 <div class="card-body">
@@ -116,11 +108,9 @@
         </div>
         {{ end }}
         {{ else }}
-        <!-- Content when there are no courses -->
         <p class="text-muted">No courses available.</p>
         {{ end }}
         {{ else }}
-        <!-- Content when Courses is nil -->
         <p class="text-muted">No course data available.</p>
         {{ end }}
     </div>

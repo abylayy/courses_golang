@@ -1,0 +1,43 @@
+{"action":"database_migration","level":"info","msg":"Database migration completed successfully","status":"success","time":"2024-02-02T16:56:26+06:00"}
+{"action":"server_start","level":"info","msg":"Server is running on :8080","status":"success","time":"2024-02-02T16:56:26+06:00"}
+{"action":"render_courses","level":"info","msg":"Courses rendered successfully","status":"success","time":"2024-02-02T16:56:31+06:00"}
+{"action":"render_courses","level":"info","msg":"Courses rendered successfully","status":"success","time":"2024-02-02T16:56:31+06:00"}
+{"action":"render_courses","level":"info","msg":"Courses rendered successfully","status":"success","time":"2024-02-02T16:56:33+06:00"}
+{"action":"render_courses","level":"info","msg":"Courses rendered successfully","status":"success","time":"2024-02-02T16:56:33+06:00"}
+{"action":"render_courses","level":"info","msg":"Courses rendered successfully","status":"success","time":"2024-02-02T16:56:33+06:00"}
+{"action":"rate_limit_exceeded","level":"error","msg":"Rate limit exceeded","status":"failure","time":"2024-02-02T16:56:39+06:00"}
+{"action":"rate_limit_exceeded","level":"error","msg":"Rate limit exceeded","status":"failure","time":"2024-02-02T16:56:39+06:00"}
+{"action":"database_migration","level":"info","msg":"Database migration completed successfully","status":"success","time":"2024-02-02T16:58:09+06:00"}
+{"action":"server_start","level":"info","msg":"Server is running on :8080","status":"success","time":"2024-02-02T16:58:09+06:00"}
+{"action":"render_courses","level":"info","msg":"Courses rendered successfully","status":"success","time":"2024-02-02T16:58:20+06:00"}
+{"action":"render_courses","level":"info","msg":"Courses rendered successfully","status":"success","time":"2024-02-02T16:58:21+06:00"}
+{"action":"render_courses","level":"info","msg":"Courses rendered successfully","status":"success","time":"2024-02-02T16:58:24+06:00"}
+{"action":"rate_limit_exceeded","level":"error","msg":"Rate limit exceeded","status":"failure","time":"2024-02-02T16:58:32+06:00"}
+{"action":"rate_limit_exceeded","level":"error","msg":"Rate limit exceeded","status":"failure","time":"2024-02-02T16:58:32+06:00"}
+{"action":"database_migration","level":"info","msg":"Database migration completed successfully","status":"success","time":"2024-02-02T16:59:19+06:00"}
+{"action":"server_start","level":"info","msg":"Server is running on :8080","status":"success","time":"2024-02-02T16:59:19+06:00"}
+{"action":"rate_limit_exceeded","level":"error","msg":"Rate limit exceeded","status":"failure","time":"2024-02-02T16:59:28+06:00"}
+{"action":"rate_limit_exceeded","level":"error","msg":"Rate limit exceeded","status":"failure","time":"2024-02-02T16:59:28+06:00"}
+{"action":"rate_limit_exceeded","level":"error","msg":"Rate limit exceeded","status":"failure","time":"2024-02-02T16:59:28+06:00"}
+{"action":"rate_limit_exceeded","level":"error","msg":"Rate limit exceeded","status":"failure","time":"2024-02-02T16:59:28+06:00"}
+{"action":"rate_limit_exceeded","level":"error","msg":"Rate limit exceeded","status":"failure","time":"2024-02-02T16:59:30+06:00"}
+{"action":"rate_limit_exceeded","level":"error","msg":"Rate limit exceeded","status":"failure","time":"2024-02-02T16:59:30+06:00"}
+{"action":"rate_limit_exceeded","level":"error","msg":"Rate limit exceeded","status":"failure","time":"2024-02-02T16:59:31+06:00"}
+{"action":"rate_limit_exceeded","level":"error","msg":"Rate limit exceeded","status":"failure","time":"2024-02-02T16:59:31+06:00"}
+{"action":"database_migration","level":"info","msg":"Database migration completed successfully","status":"success","time":"2024-02-02T17:00:04+06:00"}
+{"action":"server_start","level":"info","msg":"Server is running on :8080","status":"success","time":"2024-02-02T17:00:04+06:00"}
+{"action":"database_migration","level":"info","msg":"Database migration completed successfully","status":"success","time":"2024-02-02T17:00:30+06:00"}
+{"action":"server_start","level":"info","msg":"Server is running on :8080","status":"success","time":"2024-02-02T17:00:30+06:00"}
+{"action":"database_migration","level":"info","msg":"Database migration completed successfully","status":"success","time":"2024-02-10T04:35:38+06:00"}
+{"action":"server_start","level":"info","msg":"Server is running on :8080","status":"success","time":"2024-02-10T04:35:38+06:00"}
+{"action":"database_migration","level":"info","msg":"Database migration completed successfully","status":"success","time":"2024-02-10T04:45:58+06:00"}
+{"action":"server_start","level":"info","msg":"Server is running on :8080","status":"success","time":"2024-02-10T04:45:58+06:00"}
+{"action":"database_migration","level":"info","msg":"Database migration completed successfully","status":"success","time":"2024-02-29T21:33:44+06:00"}
+{"action":"server_start","level":"info","msg":"Server is running on :8080","status":"success","time":"2024-02-29T21:33:44+06:00"}
+{"action":"user_created","level":"info","msg":"User created successfully","status":"success","time":"2024-02-29T21:34:01+06:00","user":"azamat"}
+{"action":"render_courses","level":"info","msg":"Courses rendered successfully","status":"success","time":"2024-02-29T21:34:59+06:00"}
+{"action":"render_courses","level":"info","msg":"Courses rendered successfully","status":"success","time":"2024-02-29T21:35:01+06:00"}
+{"action":"render_courses","level":"info","msg":"Courses rendered successfully","status":"success","time":"2024-02-29T21:35:06+06:00"}
+{"action":"database_migration","level":"info","msg":"Database migration completed successfully","status":"success","time":"2024-02-29T22:07:13+06:00"}
+{"action":"server_start","level":"info","msg":"Server is running on :8080","status":"success","time":"2024-02-29T22:07:13+06:00"}
+{"action":"user_created","level":"info","msg":"User created successfully","status":"success","time":"2024-02-29T22:07:32+06:00","user":"azamat"}
